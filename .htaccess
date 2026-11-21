@@ -1,0 +1,23 @@
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Les fichiers et dossiers existants (assets, uploads...) sont servis directement
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Taille maximale des fichiers envoyés (images / vidéos des activités)
+<IfModule php_module>
+    php_value upload_max_filesize 64M
+    php_value post_max_size 70M
+    php_value max_execution_time 120
+</IfModule>
+
+# Fichiers sensibles
+<FilesMatch "\.(sql|md|log|ini)$">
+    Require all denied
+</FilesMatch>
